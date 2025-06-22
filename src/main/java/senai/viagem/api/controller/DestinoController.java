@@ -2,7 +2,7 @@ package senai.viagem.api.controller;
 
 import senai.viagem.api.dto.AvaliacaoDTO;
 import senai.viagem.api.dto.DestinoDTO;
-import senai.viagem.api.model.Destino;
+import senai.viagem.api.entities.Destino;
 import senai.viagem.api.service.DestinoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,11 @@ public class DestinoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Destino> atualizar(@PathVariable Long id, @RequestBody DestinoDTO dto) {
-        return ResponseEntity.ok(service.atualizarDestino(id, dto));
+        Destino destino = service.atualizarDestino(id, dto);
+        if  (destino != null) {
+            return ResponseEntity.ok(destino);
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping
